@@ -3,15 +3,37 @@
         <exit_code range="1:" />
     </stdio>
     <requirements>
+        <requirement type="package" version="0.10.3-beta">Kraken</requirement>
     </requirements>
     <command><![CDATA[
-        TODO: Fill in command template.
+        kraken --db $DBNAME $input1 > $output1
     ]]></command>
     <inputs>
+        <param type="data" name="input1" format="fa" />
     </inputs>
     <outputs>
+        <data name="output1" format="txt" from_work_dir="classified_seqs.txt" />
     </outputs>
     <help><![CDATA[
-        TODO: Fill in help.
+        Need to specify input filenames!
+Usage: kraken [options] <FASTA/FASTQ filename(s)>
+
+Options:
+  --db NAME               Name for Kraken DB
+  --threads NUM           Number of threads
+  --fastq-input           Input is FASTQ, not FASTA format
+  --quick                 Quick operation (use first hit or hits)
+  --min-hits NUM          In quick op., number of hits req'd for classification
+                          NOTE: this is ignored if --quick is not specified
+  --unclassified-out FILENAME
+                          Print unclassified sequences to filename
+  --classified-out FILENAME
+                          Print classified sequences to filename
+  --output FILENAME       Print output to filename (def. is stdout); "-" will
+                          suppress normal output
+  --preload               Loads DB into memory before classification
+  --help                  Print this message
+  --version               Print version information
+
     ]]></help>
 </tool>
