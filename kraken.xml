@@ -14,9 +14,14 @@
     <outputs>
         <data name="output1" format="txt" from_work_dir="classified_seqs.txt" />
     </outputs>
+    <tests>
+        <test>
+            <param name="input1" value="seqs.fa"/>
+            <output name="output1" file="classified_seqs.txt"/>
+        </test>
+    </tests>
     <help><![CDATA[
-        Need to specify input filenames!
-Usage: kraken [options] <FASTA/FASTQ filename(s)>
+        Usage: kraken [options] <FASTA/FASTQ filename(s)>
 
 Options:
   --db NAME               Name for Kraken DB
@@ -36,4 +41,7 @@ Options:
   --version               Print version information
 
     ]]></help>
+    <citations>
+      <citation type="doi">10.1186/gb-2014-15-3-r46</citation>
+    </citations>
 </tool>
