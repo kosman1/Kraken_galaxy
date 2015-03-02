@@ -11,7 +11,7 @@
     <version_command>kraken -version</version_command>
     
     <command interpreter="bash">kraken --db $DBNAME $input > $output</command>
-
+    
     <inputs>
         <!-- DATABASE -->
         <conditional name="source">
@@ -60,11 +60,11 @@
         3. The taxonomy ID Kraken used to label the sequence; this is 0 if the sequence is unclassified.
         4. The length of the sequence in bp.
         5. A space-delimited list indicating the LCA mapping of each k-mer in the sequence. For example, "562:13 561:4 A:31 0:1 562:3" would indicate that:
-            a) the first 13 k-mers mapped to taxonomy ID #562
-            b) the next 4 k-mers mapped to taxonomy ID #561
-            c) the next 31 k-mers contained an ambiguous nucleotide
-            d) the next k-mer was not in the database
-            e) the last 3 k-mers mapped to taxonomy ID #562
+        a) the first 13 k-mers mapped to taxonomy ID #562
+        b) the next 4 k-mers mapped to taxonomy ID #561
+        c) the next 31 k-mers contained an ambiguous nucleotide
+        d) the next k-mer was not in the database
+        e) the last 3 k-mers mapped to taxonomy ID #562
         
         
         **What it does**
