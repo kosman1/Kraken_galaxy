@@ -1,9 +1,6 @@
 <tool id="kraken_fastq-input" name="Classify fastq files with kraken" version="0.1.0">
-    <stdio>
-        <exit_code range="1:" />
-    </stdio>
     <requirements>
-        <requirement type="package" version="0.10.3-beta">Kraken</requirement>
+        <requirement type="package" version="0.10.3-beta">kraken</requirement>
     </requirements>
     <command><![CDATA[
         kraken --db $DBNAME --fastq-input $input1  > $output1
