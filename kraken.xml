@@ -10,30 +10,33 @@
     
     <version_command>kraken -version</version_command>
     
-    <command interpreter="bash">kraken --db $DBNAME $input > $output</command>
+    <command>
+        <![CDATA[
+        kraken --db "$DBNAME" "$input" > $output
+        ]]>
 
+    </command>
+    
     <inputs>
-        <!-- DATABASE -->
+    
+    <!--        MULTI FASTA SEQUENCES INPUT takes in FASTA and FASTQ-->
+        <param format="fasta,fastq" name="input"  type="data" label="Input sequences" />
+   
+    <!-- DATABASE -->
         <conditional name="source">
-            <param label="Kraken Database" name="source_select" type="select">
-                <option value="database">Genome Build</option>
-                <option value="input_ref">Your Upload File</option>
+            <param label="Kraken Database Select" name="source_select" type="select">
+                <option value="history">Use your own database</option>
             </param>
-            <when value="database">
-                <param label="Genome" name="dbkey" type="genomebuild"/>
-            </when>
-            <when value="input_ref">
-                <param format="fasta" label="Reference sequence" name="input_target" type="data"/>
-            </when>
+            <when value="history">
+                <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select Kraken Database" />
+            </when>  <!-- history -->
         </conditional>
-        <!--        MULTI FASTA SEQUENCES INPUT-->
-        <param format="fa" label="Input sequences" name="input" type="data"/>
         
     </inputs>
     
     <outputs>
         <!--        CLASSIFIED SEQUENCES OUTPUT-->
-        <data name="output" format="txt" from_work_dir="classified_seqs.txt" />
+        <data name="output" format="tabular" />
     </outputs>
     <tests>
         <test>
@@ -59,6 +62,7 @@
         2. The sequence ID, obtained from the FASTA/FASTQ header.
         3. The taxonomy ID Kraken used to label the sequence; this is 0 if the sequence is unclassified.
         4. The length of the sequence in bp.
+        
         5. A space-delimited list indicating the LCA mapping of each k-mer in the sequence. For example, "562:13 561:4 A:31 0:1 562:3" would indicate that:
             a) the first 13 k-mers mapped to taxonomy ID #562
             b) the next 4 k-mers mapped to taxonomy ID #561
