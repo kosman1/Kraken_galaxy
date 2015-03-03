@@ -36,7 +36,7 @@
     
     <outputs>
         <!--        CLASSIFIED SEQUENCES OUTPUT-->
-        <data name="output" format="txt" from_work_dir="classified_seqs.txt" />
+        <data name="output" format="tabular" />
     </outputs>
     <tests>
         <test>
