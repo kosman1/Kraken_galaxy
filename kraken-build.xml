@@ -1,0 +1,56 @@
+<tool id="kraken-build" name="Create your own customised database" version="0.1.0">
+    <stdio>
+        <exit_code range="1:" />
+    </stdio>
+    <requirements>
+        <requirement type="package" version="0.10.3-beta">Kraken</requirement>
+    </requirements>
+    <command><![CDATA[
+        kraken-build [task option] [options] > $DBNAME
+    ]]></command>
+    <inputs>
+        <param type="data" name="input1" format="dmp" />
+    </inputs>
+    <outputs>
+        <data name="output1" format="directory" from_work_dir="database.directory" />
+    </outputs>
+    <help><![CDATA[
+        Usage: kraken-build [task option] [options]
+
+Task options (exactly one must be selected):
+  --download-taxonomy        Download NCBI taxonomic information
+  --download-library TYPE    Download partial library
+                             (TYPE = one of "bacteria", "viruses", "human")
+  --add-to-library FILE      Add FILE to library
+  --build                    Create DB from library
+                             (requires taxonomy d/l'ed and at least one file
+                             in library)
+  --clean                    Remove unneeded files from a built database
+  --shrink PCT               Shrink an existing DB to PCT % of its original
+                             size.
+  --standard                 Download and create default database
+  --upgrade                  Upgrade an existing older database to use scrambled
+                             minimizer ordering (see README for details)
+  --help                     Print this message
+  --version                  Print version information
+
+Options:
+  --db NAME                  Kraken DB/library name (mandatory except for
+                             --help/--version)
+  --threads #                Number of threads (def: 1)
+  --new-db NAME              New Kraken DB name (shrink task only; mandatory
+                             for shrink task)
+  --kmer-len NUM             K-mer length in bp (build/shrink tasks only;
+                             def: 31)
+  --minimizer-len NUM        Minimizer length in bp (build/shrink tasks only;
+                             def: 15)
+  --jellyfish-hash-size STR  Pass a specific hash size argument to jellyfish
+                             when building database (build task only)
+  --max-db-size SIZE         Shrink the DB before full build, making sure
+                             database and index together use <= SIZE gigabytes
+                             (build task only)
+  --work-on-disk             Perform most operations on disk rather than in
+                             RAM (will slow down build in most cases)
+
+    ]]></help>
+</tool>
