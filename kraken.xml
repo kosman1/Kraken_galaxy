@@ -34,6 +34,12 @@
             <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select a reference from history" />
         </when>
     </conditional>
+<!--    NEW STUFF HERE-->
+    <param name="classified_or_unclassified" type="select" label="Sequence filtering: Classified or unclassified sequences can be sent to a file for later processing">
+        <option value="b">Both Classified and unclassifed</option>
+        <option value="c">Classified</option>
+        <option value="u">Unclassified</option>
+    </param>
     </inputs>
     
     <outputs>
