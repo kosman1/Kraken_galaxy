@@ -101,17 +101,6 @@
 
         
         
-        
-        
-        
-<<<<<<< HEAD
-        kraken --db $DBNAME sequences.fq > sequences.kraken
-=======
-       
-        
-        
-        
->>>>>>> kosman1/master
     </help>
     <citations>
         <citation type="doi">10.1186/gb-2014-15-3-r46</citation>
