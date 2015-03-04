@@ -1,41 +1,43 @@
 <tool id="krakentest" name="Kraken" version="0.10.3-beta">
-    
     <requirements>
         <requirement type="package" version="0.10.3-beta">kraken</requirement>
     </requirements>
-    
     <description>
         Kraken is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads.
     </description>
-    
     <version_command>kraken -version</version_command>
-    
     <command>
         <![CDATA[
         kraken --db "$DBNAME" "$input" > $output
         ]]>
-
     </command>
-    
     <inputs>
-    
-    <!--        MULTI FASTA SEQUENCES INPUT takes in FASTA and FASTQ-->
+    <!--  READS INPUT takes in FASTA and FASTQ-->
         <param format="fasta,fastq" name="input"  type="data" label="Input sequences" />
-   
-    <!-- DATABASE -->
-        <conditional name="source">
-            <param label="Kraken Database Select" name="source_select" type="select">
-                <option value="history">Use your own database</option>
+
+    <!-- DATABASE INPUT-->
+    <conditional name="krakenDBSource">
+        <param name="dbSource" type="select" label="Will you select a reference genome from your history or use a built-in index?">
+            <option value="indexed">Use a built-in index</option>
+            <option value="history">Use one from the history</option>
+        </param>
+        <!-- BUILT-IN-->
+        <when value="indexed">
+            <param name="indices" type="select" label="Select a Kraken database">
+                <options from_data_table="kraken_database">
+                    <filter type="sort_by" column="2" />
+                    <validator type="no_options" message="No indexes are available" />
+                </options>
             </param>
-            <when value="history">
-                <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select Kraken Database" />
-            </when>  <!-- history -->
-        </conditional>
-        
+        </when>
+        <when value="history">
+            <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select a reference from history" />
+        </when>
+    </conditional>
     </inputs>
     
     <outputs>
-        <!--        CLASSIFIED SEQUENCES OUTPUT-->
+        <!-- CLASSIFIED SEQUENCES OUTPUT-->
         <data name="output" format="tabular" />
     </outputs>
     <tests>
@@ -83,11 +85,7 @@
         or
         
         kraken --db $DBNAME sequences.fq > sequences.kraken
-        
-        
-        
     </help>
-    
     <citations>
         <citation type="doi">10.1186/gb-2014-15-3-r46</citation>
     </citations>
