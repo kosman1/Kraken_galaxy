@@ -18,7 +18,3 @@ In the config/tool_data_table_conf.xml, add this:
     <file path="/full-path/Kraken_galaxy/tool-data/kraken_database.loc" />
 </table>
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> kosman1/master
