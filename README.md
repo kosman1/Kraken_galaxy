@@ -5,7 +5,9 @@ In your galaxy home directory config/tool_conf.xml file, change
 ```
  <section name="Kraken-test" id="kraken">
     <tool file="/full-path/Kraken_galaxy/kraken.xml" />
- </section>
+	<tool file="/full-path/Kraken_galaxy/kraken-build.xml" />
+    <tool file="/full-path/Kraken_galaxy/kraken-report.xml" />
+</section>
  ```
 
 In the config/tool_data_table_conf.xml, add this:
@@ -16,3 +18,4 @@ In the config/tool_data_table_conf.xml, add this:
     <file path="/Users/nturaga/Documents/Kraken_galaxy/tool-data/kraken_database.loc" />
 </table>
 ```
+
