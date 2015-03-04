@@ -24,7 +24,7 @@
         <!-- BUILT-IN-->
         <when value="indexed">
             <param name="indices" type="select" label="Select a Kraken database">
-                <options from_data_table="kraken_database">
+                <options from_data_table="krakendb">
                     <filter type="sort_by" column="2" />
                     <validator type="no_options" message="No indexes are available" />
                 </options>
