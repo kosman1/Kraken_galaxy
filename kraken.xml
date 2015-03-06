@@ -6,14 +6,8 @@
         Kraken is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads.
     </description>
     <version_command>kraken -version</version_command>
-    <command interpreter="python">
-        kraken.py
-        $krakenDBSource
-        $input
-        $output
-        #if $krakenDBSource=="indexed":
-        $krakenDBSource.indices
-        #end if
+    <command>
+        kraken --db $krakenDBSource $input > $output
     </command>
     <inputs>
         <!--  READS INPUT takes in FASTA and FASTQ-->
