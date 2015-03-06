@@ -7,37 +7,53 @@
     </description>
     <version_command>kraken -version</version_command>
     <command>
-        kraken --db $krakenDBSource $input > $output
+        kraken --db
+        #if $krakenDBSource.DBSource=="customDB":
+            $krakenDBSource.chosenDB
+        #end if
+        $input &gt; $output
     </command>
+    <!-- basic error handling -->
+    <!--<stdio>-->
+        <!--<exit_code range="1:" level="fatal" description="Tool exception" />-->
+    <!--</stdio>-->
+
     <inputs>
         <!--  READS INPUT takes in FASTA and FASTQ-->
         <param format="fasta,fastq" name="input"  type="data" label="Input sequences" />
 
         <!-- DATABASE INPUT-->
         <conditional name="krakenDBSource">
-            <param name="dbSource" type="select" label="Will you select a reference genome from your history or use a built-in index?">
-                <option value="indexed">Use a built-in index</option>
-                <option value="history">Use one from the history</option>
+            <param name="DBSource" type="select" label="Will you select a reference genome from your history or use a built-in index?">
+                <option value="customDB">Use a built-in index</option>
+                <option value="galaxyhistory">Use one from the history</option>
             </param>
             <!-- BUILT-IN-->
-            <when value="indexed">
-                <param name="indices" type="select" label="Select a Kraken database">
+            <when value="customDB">
+                <param name="chosenDB" type="select" label="Select a Kraken database">
                     <options from_data_table="krakendb">
-                        <filter type="sort_by" column="2" />
-                        <validator type="no_options" message="No indexes are available" />
+                    <validator type="no_options" message="No databases are available built-in" />
                     </options>
                 </param>
             </when>
-            <when value="history">
-                <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select a reference from history" />
+            <when value="galaxyhistory">
+                <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select a database from galaxy history" />
             </when>
         </conditional>
-        <!--    NEW STUFF HERE-->
-        <param name="classified_or_unclassified" type="select" label="Sequence filtering: Classified or unclassified sequences can be sent to a file for later processing">
-            <option value="b">Both Classified and unclassifed</option>
-            <option value="c">Classified</option>
-            <option value="u">Unclassified</option>
-        </param>
+
+        <!--&lt;!&ndash;    Classified or unclassified kraken output&ndash;&gt;-->
+
+        <!--<conditional name = "output format">-->
+            <!--<param name="classified_or_unclassified" type="select" label="Sequence filtering: Classified or unclassified sequences can be sent to a file for later processing">-->
+                <!--<option value="b">No filter</option>-->
+                <!--<option value="c">Classified</option>-->
+                <!--<option value="u">Unclassified</option>-->
+            <!--</param>-->
+            <!--<when value="b">-->
+                <!--<param name="NoFilter" type="data" ></param>-->
+            <!--</when>-->
+
+        <!--</conditional>-->
     </inputs>
 
     <outputs>
@@ -97,11 +113,11 @@
         4. The length of the sequence in bp.
 
         5. A space-delimited list indicating the LCA mapping of each k-mer in the sequence. For example, "562:13 561:4 A:31 0:1 562:3" would indicate that:
-            a) the first 13 k-mers mapped to taxonomy ID #562
-            b) the next 4 k-mers mapped to taxonomy ID #561
-            c) the next 31 k-mers contained an ambiguous nucleotide
-            d) the next k-mer was not in the database
-            e) the last 3 k-mers mapped to taxonomy ID #562
+        a) the first 13 k-mers mapped to taxonomy ID #562
+        b) the next 4 k-mers mapped to taxonomy ID #561
+        c) the next 31 k-mers contained an ambiguous nucleotide
+        d) the next k-mer was not in the database
+        e) the last 3 k-mers mapped to taxonomy ID #562
 
 
 
