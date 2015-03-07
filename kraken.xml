@@ -35,8 +35,8 @@
         </when>
     </conditional>
 <!--    NEW STUFF HERE-->
-    <param name="classified_or_unclassified" type="select" label="Sequence filtering: Classified or unclassified sequences can be sent to a file for later processing">
-        <option value="b">Both Classified and unclassifed</option>
+    <param name="classified_or_unclassified" type="select" label="Sequence filtering: Choose to display only the classified or unclassified sequences in the output (or preserve the full output)">
+        <option value="b">Both Classified and Unclassifed</option>
         <option value="c">Classified</option>
         <option value="u">Unclassified</option>
     </param>
