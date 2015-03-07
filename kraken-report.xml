@@ -16,13 +16,13 @@
         
     <!-- SEQUENCING INPUT SOURCE-->
     <conditional name="Kraken_output_source"/>
-        <param name="Kraken_output_source" type="select" label="Does the kraken output to be reported exist in the working directory or another previously sequenced file?">
-            <option value="Working_directory">Output Cached In the Working Directory</option>
+        <param name="Kraken_output_source" type="select" label="Does the kraken output to be reported exist in the current history or another previously sequenced file?">
+            <option value="Current_history">Output Cached In the Working Directory</option>
             <option value="Previously_sequenced">Output Previously Sequenced</option>
         </param>
 
     <!-- FROM WORKING DIRECTORY-->
-        <when value="Working_directory">
+        <when value="Current_history">
             <param name="cached" type="data" format=".txt" label="Select your cached Kraken output"> 
                 <!--         used a .txt format  here ^ because we are selecting from a list and it cant be tabular right?-->
                 <options from_dataset="kraken_output">
