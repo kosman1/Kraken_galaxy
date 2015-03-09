@@ -12,15 +12,11 @@
             $krakenDBSource.chosenDB
         #end if
         $input
-
-        #if $SequenceFiltering.classified_or_unclassified=="b":
-            $SequenceFiltering.NoFilter
-        #elif $SequenceFiltering.classified_or_unclassified=="c":
-            $SequenceFiltering.Classified
-        #elif $SequenceFiltering.classified_or_unclassified=="u":
-            $SequenceFiltering.Unclassified
+        #if str($option_set.options)=="classified_out":
+            --classified-out "$option_set.classified"
+        #elif str($option_set.options)=="unclassified_out":
+            --unclassified-out "$option_set.unclassified"
         #end if
-
         --output $output
     </command>
     <!-- basic error handling -->
@@ -51,28 +47,26 @@
             </when>
         </conditional>
 
-        <!--    Classified or unclassified kraken output-->
-        <conditional name = "SequenceFiltering">
-            <param name="classified_or_unclassified" type="select" label="Sequence filtering: Classified or unclassified sequences can be sent to a file for later processing">
-                <option value="b">No filter</option>
-                <option value="c">Classified output</option>
-                <option value="u">Unclassified output</option>
+         <conditional name="option_set">
+            <param label="Sequence Filtering" name="options" type="select">
+                <option selected="True" value="default">No sequence filtering</option>
+                <option value="classified_out">classified output</option>
+                <option value="unclassified_out">unclassified output</option>
             </param>
-            <when value="b">
-                <param name="NoFilter" value=""/>
+            <when value="default" />
+            <when value="classified_out">
+                <param falsevalue="" help="(--classified-out)" label="Classified sequences are sent to a file for later processing" name="classified" truevalue="--classified-out" type="boolean" />
             </when>
-            <when value="c">
-                <param name="Classified" value="--classified-out"/>
+            <when value="unclassified_out">
+                <param falsevalue="" help="(--unclassified-out)" label="Unclassified sequences are sent to a file for later processing" name="unclassified" truevalue="--unclassified-out" type="boolean" />
             </when>
-                <when value="u">
-                    <param name="Unclassified" value="--unclassified-out"/>
-                </when>
         </conditional>
+
     </inputs>
 
     <outputs>
         <!-- CLASSIFIED SEQUENCES OUTPUT-->
-        <data name="output" format="tabular" />
+        <data name="output" format="tabular"/>
     </outputs>
     <tests>
         <test>
