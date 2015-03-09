@@ -1,21 +1,57 @@
-<tool id="kraken-report" name="View a sample report of your classification" version="0.1.0">
-    <stdio>
-        <exit_code range="1:" />
-    </stdio>
+<tool id="kraken-report" name="Kraken Report" version="0.10.3-beta">
     <requirements>
         <requirement type="package" version="0.10.3-beta">Kraken</requirement>
     </requirements>
-    <command><![CDATA[
-        kraken-report --db $DBNAME $input1 > $output1
-    ]]></command>
+    <description>
+        View a sample report of your classification.
+    </description>
+    <command>
+        <![CDATA[
+        kraken-report --db $DBNAME $kraken_output > $kraken-report_output
+    ]]>
+    </command>
     <inputs>
-        <param type="data" name="input1" format="kraken" />
+    <!--  READS input takes in classified_seqs.txt-->
+        <param type="data" name="kraken_output" format=".txt" label="Input the Sequenced Kraken Output"/>
+        
+    <!-- SEQUENCING INPUT SOURCE-->
+    <conditional name="Kraken_output_source"/>
+        <param name="Kraken_output_source" type="select" label="Does the kraken output to be reported exist in the current history or another previously sequenced file?">
+            <option value="Current_history">Output Cached In the Working Directory</option>
+            <option value="Previously_sequenced">Output Previously Sequenced</option>
+        </param>
+
+    <!-- FROM WORKING DIRECTORY-->
+        <when value="Current_history">
+            <param name="cached" type="data" format=".txt" label="Select your cached Kraken output"> 
+                <!--         used a .txt format  here ^ because we are selecting from a list and it cant be tabular right?-->
+                <options from_dataset="kraken_output">
+                    <column name="name" index="0"/>
+                    <column name="value" index="0"/>
+                </options>
+            </param>
+        </when>
+        <!-- PREVIOUSLY SEQUENCED (OWNFILE)-->
+        <when value="Previously_sequenced">
+            <param name="ownFile" type="data" format=".txt" label="Select a previously sequenced Kraken output"/> <!-- same here -->
+        </when>
+
+    </conditional>
     </inputs>
+
     <outputs>
-        <data name="output1" format="report" from_work_dir="sequences.report" />
+    <!-- KRAKEN REPORT OUTPUT-->
+        <data name="kraken-report_output" format="tabular"/>
     </outputs>
+    <tests>
+        <test>
+            <param name="classified_sequences" value="classified_sequences.txt"/>
+            <output name="kraken-report" file="kraken-report_output.txt"/>
+        </test>
+    </tests>
+    
     <help><![CDATA[
-        The output of kraken-report is tab-delimited, with one line per taxon. The fields of the output, from left-to-right, are as follows:
+The output of kraken-report is tab-delimited, with one line per taxon. The fields of the output, from left-to-right, are as follows:
 
 1)Percentage of reads covered by the clade rooted at this taxon
 
