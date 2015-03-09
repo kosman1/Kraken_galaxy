@@ -18,3 +18,8 @@ In the config/tool_data_table_conf.xml, add this:
     <file path="/full-path/Kraken_galaxy/tool-data/kraken_database.loc" />
 </table>
 ```
+
+TODO: 
+
+1. Fix kraken.xml to take in fastq files
+2. Make sequence filtering work.
