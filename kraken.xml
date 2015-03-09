@@ -6,49 +6,67 @@
         Kraken is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads.
     </description>
     <version_command>kraken -version</version_command>
-    <command interpreter="python">
-        kraken.py
-        $krakenDBSource
-        $input
-        $output
-        #if $krakenDBSource=="indexed":
-        $krakenDBSource.indices
+    <command>
+        kraken --db
+        #if $krakenDBSource.DBSource=="customDB":
+            $krakenDBSource.chosenDB
         #end if
+        $input
+        #if str($option_set.options)=="classified_out":
+            --classified-out "$option_set.classified"
+        #elif str($option_set.options)=="unclassified_out":
+            --unclassified-out "$option_set.unclassified"
+        #end if
+        --output $output
     </command>
+    <!-- basic error handling -->
+    <stdio>
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+    </stdio>
+
     <inputs>
         <!--  READS INPUT takes in FASTA and FASTQ-->
         <param format="fasta,fastq" name="input"  type="data" label="Input sequences" />
 
         <!-- DATABASE INPUT-->
         <conditional name="krakenDBSource">
-            <param name="dbSource" type="select" label="Will you select a reference genome from your history or use a built-in index?">
-                <option value="indexed">Use a built-in index</option>
-                <option value="history">Use one from the history</option>
+            <param name="DBSource" type="select" label="Will you select a reference genome from your history or use a built-in index?">
+                <option value="customDB">Use a built-in index</option>
+                <option value="galaxyhistory">Use one from the history</option>
             </param>
             <!-- BUILT-IN-->
-            <when value="indexed">
-                <param name="indices" type="select" label="Select a Kraken database">
+            <when value="customDB">
+                <param name="chosenDB" type="select" label="Select a Kraken database">
                     <options from_data_table="krakendb">
-                        <filter type="sort_by" column="2" />
-                        <validator type="no_options" message="No indexes are available" />
+                    <validator type="no_options" message="No databases are available built-in" />
                     </options>
                 </param>
             </when>
-            <when value="history">
-                <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select a reference from history" />
+            <when value="galaxyhistory">
+                <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select a database from galaxy history" />
             </when>
         </conditional>
-        <!--    NEW STUFF HERE-->
-        <param name="classified_or_unclassified" type="select" label="Sequence filtering: Classified or unclassified sequences can be sent to a file for later processing">
-            <option value="b">Both Classified and unclassifed</option>
-            <option value="c">Classified</option>
-            <option value="u">Unclassified</option>
-        </param>
+
+         <conditional name="option_set">
+            <param label="Sequence Filtering" name="options" type="select">
+                <option selected="True" value="default">No sequence filtering</option>
+                <option value="classified_out">classified output</option>
+                <option value="unclassified_out">unclassified output</option>
+            </param>
+            <when value="default" />
+            <when value="classified_out">
+                <param falsevalue="" help="(--classified-out)" label="Classified sequences are sent to a file for later processing" name="classified" truevalue="--classified-out" type="boolean" />
+            </when>
+            <when value="unclassified_out">
+                <param falsevalue="" help="(--unclassified-out)" label="Unclassified sequences are sent to a file for later processing" name="unclassified" truevalue="--unclassified-out" type="boolean" />
+            </when>
+        </conditional>
+
     </inputs>
 
     <outputs>
         <!-- CLASSIFIED SEQUENCES OUTPUT-->
-        <data name="output" format="tabular" />
+        <data name="output" format="tabular"/>
     </outputs>
     <tests>
         <test>
