@@ -11,12 +11,22 @@
         #if $krakenDBSource.DBSource=="customDB":
             $krakenDBSource.chosenDB
         #end if
-        $input &gt; $output
+        $input
+
+        #if $SequenceFiltering.classified_or_unclassified=="b":
+            $SequenceFiltering.NoFilter
+        #elif $SequenceFiltering.classified_or_unclassified=="c":
+            $SequenceFiltering.Classified
+        #elif $SequenceFiltering.classified_or_unclassified=="u":
+            $SequenceFiltering.Unclassified
+        #end if
+
+        --output $output
     </command>
     <!-- basic error handling -->
-    <!--<stdio>-->
-        <!--<exit_code range="1:" level="fatal" description="Tool exception" />-->
-    <!--</stdio>-->
+    <stdio>
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+    </stdio>
 
     <inputs>
         <!--  READS INPUT takes in FASTA and FASTQ-->
@@ -41,19 +51,23 @@
             </when>
         </conditional>
 
-        <!--&lt;!&ndash;    Classified or unclassified kraken output&ndash;&gt;-->
-
-        <!--<conditional name = "output format">-->
-            <!--<param name="classified_or_unclassified" type="select" label="Sequence filtering: Classified or unclassified sequences can be sent to a file for later processing">-->
-                <!--<option value="b">No filter</option>-->
-                <!--<option value="c">Classified</option>-->
-                <!--<option value="u">Unclassified</option>-->
-            <!--</param>-->
-            <!--<when value="b">-->
-                <!--<param name="NoFilter" type="data" ></param>-->
-            <!--</when>-->
-
-        <!--</conditional>-->
+        <!--    Classified or unclassified kraken output-->
+        <conditional name = "SequenceFiltering">
+            <param name="classified_or_unclassified" type="select" label="Sequence filtering: Classified or unclassified sequences can be sent to a file for later processing">
+                <option value="b">No filter</option>
+                <option value="c">Classified output</option>
+                <option value="u">Unclassified output</option>
+            </param>
+            <when value="b">
+                <param name="NoFilter" value=""/>
+            </when>
+            <when value="c">
+                <param name="Classified" value="--classified-out"/>
+            </when>
+                <when value="u">
+                    <param name="Unclassified" value="--unclassified-out"/>
+                </when>
+        </conditional>
     </inputs>
 
     <outputs>
@@ -113,11 +127,11 @@
         4. The length of the sequence in bp.
 
         5. A space-delimited list indicating the LCA mapping of each k-mer in the sequence. For example, "562:13 561:4 A:31 0:1 562:3" would indicate that:
-        a) the first 13 k-mers mapped to taxonomy ID #562
-        b) the next 4 k-mers mapped to taxonomy ID #561
-        c) the next 31 k-mers contained an ambiguous nucleotide
-        d) the next k-mer was not in the database
-        e) the last 3 k-mers mapped to taxonomy ID #562
+            a) the first 13 k-mers mapped to taxonomy ID #562
+            b) the next 4 k-mers mapped to taxonomy ID #561
+            c) the next 31 k-mers contained an ambiguous nucleotide
+            d) the next k-mer was not in the database
+            e) the last 3 k-mers mapped to taxonomy ID #562
 
 
 
