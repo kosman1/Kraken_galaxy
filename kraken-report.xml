@@ -10,12 +10,15 @@
         kraken-report --db $DBNAME $kraken_output > $kraken-report_output
     ]]>
     </command>
+    <stdio>
+        <exit_code range="1:" level="fatal" description="Tool exception" />
+    </stdio>
     <inputs>
     <!--  READS input takes in classified_seqs.txt-->
         <param type="data" name="kraken_output" format=".txt" label="Input the Sequenced Kraken Output"/>
         
     <!-- SEQUENCING INPUT SOURCE-->
-    <conditional name="Kraken_output_source"/>
+    <conditional name="Kraken_output_source">
         <param name="Kraken_output_source" type="select" label="Does the kraken output to be reported exist in the current history or another previously sequenced file?">
             <option value="Current_history">Output Cached In the Working Directory</option>
             <option value="Previously_sequenced">Output Previously Sequenced</option>
