@@ -14,30 +14,28 @@
         <exit_code range="1:" level="fatal" description="Tool exception" />
     </stdio>
     <inputs>
-    <!--  READS input takes in classified_seqs.txt-->
-    <!-- SEQUENCING INPUT SOURCE-->
-    <conditional name="Kraken_output_source">
-        <param name="Kraken_output_source" type="select" label="Does the kraken output to be reported exist in the current history or another previously sequenced file?">
-            <option value="Current_history">Output Cached In the Working Directory</option>
-            <option value="Previously_sequenced">Output Previously Sequenced</option>
-        </param>
+        <!--  READS input takes in classified_seqs.txt-->
+        <param format="tabular" name="kraken_output" type="data" label="Input the Sequenced Kraken Output from your Current History"/>
 
-    <!-- FROM WORKING DIRECTORY-->
-        <when value="Current_history">
-            <param name="cached" type="data" format=".txt" label="Select your cached Kraken output"> 
-                <!--         used a .txt format  here ^ because we are selecting from a list and it cant be tabular right?-->
-                <options from_dataset="kraken_output">
-                    <column name="name" index="0"/>
-                    <column name="value" index="0"/>
-                </options>
+
+        <!-- DATABASE INPUT-->
+        <conditional name="krakenDBSource">
+            <param name="DBSource" type="select" label="Which database did you use to generate this output?">
+                <option value="customDB">Used a built-in index</option>
+                <option value="galaxyhistory">Used one from the history</option>
             </param>
-        </when>
-        <!-- PREVIOUSLY SEQUENCED (OWNFILE)-->
-        <when value="Previously_sequenced">
-            <param name="ownFile" type="data" format=".txt" label="Select a previously sequenced Kraken output"/> <!-- same here -->
-        </when>
-
-    </conditional>
+            <!-- BUILT-IN-->
+            <when value="customDB">
+                <param name="chosenDB" type="select" label="Select the built-in database">
+                    <options from_data_table="krakendb">
+                    <validator type="no_options" message="No databases are available/built-in" />
+                    </options>
+                </param>
+            </when>
+            <when value="galaxyhistory">
+                <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select a database from your galaxy history" />
+            </when>
+        </conditional>
     </inputs>
 
     <outputs>
@@ -46,12 +44,16 @@
     </outputs>
     <tests>
         <test>
-            <param name="classified_sequences" value="classified_sequences.txt"/>
-            <output name="kraken-report" file="kraken-report_output.txt"/>
+            <param name="classified_sequences" value="classified_sequences.tabular"/>
+            <output name="kraken-report" file="kraken-report_output.tabular"/>
         </test>
     </tests>
     
     <help><![CDATA[
+**Note that the database used must be the same as the one used to generate
+the output file, or the report script may encounter problems.**
+
+
 The output of kraken-report is tab-delimited, with one line per taxon. The fields of the output, from left-to-right, are as follows:
 
 1)Percentage of reads covered by the clade rooted at this taxon
@@ -66,4 +68,7 @@ The output of kraken-report is tab-delimited, with one line per taxon. The field
 
 6)indented scientific name
     ]]></help>
+    <citations>
+        <citation type="doi">10.1186/gb-2014-15-3-r46</citation>
+    </citations>
 </tool>
