@@ -15,8 +15,6 @@
     </stdio>
     <inputs>
     <!--  READS input takes in classified_seqs.txt-->
-        <param type="data" name="kraken_output" format=".txt" label="Input the Sequenced Kraken Output"/>
-        
     <!-- SEQUENCING INPUT SOURCE-->
     <conditional name="Kraken_output_source">
         <param name="Kraken_output_source" type="select" label="Does the kraken output to be reported exist in the current history or another previously sequenced file?">
