@@ -52,7 +52,7 @@
     </tests>
     
     <help><![CDATA[
-=======
+
 **Note that the database used must be the same as the one used to generate
 the output file, or the report script may encounter problems.**
 
