@@ -50,23 +50,27 @@
     </tests>
     
     <help><![CDATA[
-**Note that the database used must be the same as the one used to generate
-the output file, or the report script may encounter problems.**
+***Note that the database used must be the same as the one used to generate
+the output file, or the report script may encounter problems.***
 
 
-The output of kraken-report is tab-delimited, with one line per taxon. The fields of the output, from left-to-right, are as follows:
 
-1)Percentage of reads covered by the clade rooted at this taxon
+**The output of kraken-report is tab-delimited, with one line per taxon. The fields of the output, from left-to-right, are as follows:**
 
-2)Number of reads covered by the clade rooted at this taxon
+    1)Percentage of reads covered by the clade rooted at this taxon
 
-3)Number of reads assigned directly to this taxon
+    2)Number of reads covered by the clade rooted at this taxon
 
-4)A rank code, indicating (U)nclassified, (D)omain, (K)ingdom, (P)hylum, (C)lass, (O)rder, (F)amily, (G)enus, or (S)pecies. All other ranks are simply -.
+    3)Number of reads assigned directly to this taxon
 
-5)NCBI taxonomy ID
+    4)A rank code, indicating (U)nclassified, (D)omain, (K)ingdom, (P)hylum, (C)lass, (O)rder, (F)amily, (G)enus, or (S)pecies. All other ranks are simply -.
 
-6)indented scientific name
+    5)NCBI taxonomy ID
+
+    6)Indented scientific name
+
+**The scientific names are indented using spaces, according to the tree
+structure specified by the taxonomy.**
     ]]></help>
     <citations>
         <citation type="doi">10.1186/gb-2014-15-3-r46</citation>
