@@ -17,7 +17,7 @@
         #elif str($option_set.options)=="unclassified_out":
             --unclassified-out "$option_set.unclassified"
         #end if
-        --output $output
+        &gt; $output
     </command>
     <!-- basic error handling -->
     <stdio>

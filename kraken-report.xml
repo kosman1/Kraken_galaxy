@@ -1,15 +1,18 @@
 <tool id="kraken-report" name="Kraken Report" version="0.10.3-beta">
     <requirements>
-        <requirement type="package" version="0.10.3-beta">Kraken</requirement>
+        <requirement type="package" version="0.10.3-beta">kraken</requirement>
     </requirements>
     <description>
         View a sample report of your classification.
     </description>
     <command>
-        <![CDATA[
-        kraken-report --db $DBNAME $kraken_output > $kraken-report_output
-    ]]>
+        kraken-report --db 
+        #if $krakenDBSource.DBSource=="customDB":
+            $krakenDBSource.chosenDB
+        #end if
+        $kraken_output &gt; $kraken-report_output
     </command>
+
     <stdio>
         <exit_code range="1:" level="fatal" description="Tool exception" />
     </stdio>
@@ -36,6 +39,7 @@
                 <param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select a database from your galaxy history" />
             </when>
         </conditional>
+
     </inputs>
 
     <outputs>
@@ -50,12 +54,13 @@
     </tests>
     
     <help><![CDATA[
-***Note that the database used must be the same as the one used to generate
-the output file, or the report script may encounter problems.***
+
+**Note that the database used must be the same as the one used to generate
+the output file, or the report script may encounter problems.**
 
 
 
-**The output of kraken-report is tab-delimited, with one line per taxon. The fields of the output, from left-to-right, are as follows:**
+The output of kraken-report is tab-delimited, with one line per taxon. The fields of the output, from left-to-right, are as follows:
 
     1)Percentage of reads covered by the clade rooted at this taxon
 
@@ -68,9 +73,6 @@ the output file, or the report script may encounter problems.***
     5)NCBI taxonomy ID
 
     6)Indented scientific name
-
-**The scientific names are indented using spaces, according to the tree
-structure specified by the taxonomy.**
     ]]></help>
     <citations>
         <citation type="doi">10.1186/gb-2014-15-3-r46</citation>
