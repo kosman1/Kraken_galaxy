@@ -1,6 +1,6 @@
-<tool id="kraken-report" name="Kraken Report" version="0.10.3-beta">
+<tool id="kraken-report" name="Kraken Report" version="0.10.5-beta">
     <requirements>
-        <requirement type="package" version="0.10.3-beta">kraken</requirement>
+        <requirement type="package" version="0.10.5-beta">kraken</requirement>
     </requirements>
     <description>
         View a sample report of your classification.
@@ -18,7 +18,7 @@
     </stdio>
     <inputs>
         <!--  READS input takes in classified_seqs.txt-->
-        <param format="tabular" name="kraken_output" type="data" label="Input the Sequenced Kraken Output from your Current History"/>
+        <param format="galaxy.datatypes.tabular:Tabular" name="kraken_output" type="data" label="Input the Sequenced Kraken Output from your Current History"/>
 
 
         <!-- DATABASE INPUT-->

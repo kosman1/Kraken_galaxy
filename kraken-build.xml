@@ -1,10 +1,13 @@
-<tool id="kraken-build" name="Create your own customised database" version="0.1.0">
+<tool id="kraken-build" name="Kraken Build" version="0.1.0">
     <stdio>
         <exit_code range="1:" />
     </stdio>
     <requirements>
         <requirement type="package" version="0.10.3-beta">Kraken</requirement>
     </requirements>
+    <description>
+        Create your own customised database.
+    </description>
     <command><![CDATA[
         kraken-build [task option] [options] > $DBNAME
     ]]></command>

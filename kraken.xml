@@ -1,6 +1,6 @@
-<tool id="krakentest" name="Kraken" version="0.10.3-beta">
+<tool id="krakentest" name="Kraken" version="0.10.5-beta">
     <requirements>
-        <requirement type="package" version="0.10.3-beta">kraken</requirement>
+        <requirement type="package" version="0.10.5-beta">kraken</requirement>
     </requirements>
     <description>
         Kraken is a taxonomic sequence classifier that assigns taxonomic labels to short DNA reads.
@@ -50,15 +50,15 @@
          <conditional name="option_set">
             <param label="Sequence Filtering" name="options" type="select">
                 <option selected="True" value="default">No sequence filtering</option>
-                <option value="classified_out">classified output</option>
-                <option value="unclassified_out">unclassified output</option>
+                <option value="classified_out">Classified output</option>
+                <option value="unclassified_out">Unclassified output</option>
             </param>
             <when value="default" />
             <when value="classified_out">
-                <param falsevalue="" help="(--classified-out)" label="Classified sequences are sent to a file for later processing" name="classified" truevalue="--classified-out" type="boolean" />
+                <param falsevalue="" help="(--classified-out)" label="Only classified sequences are sent to a file for later processing" name="classified" truevalue="--classified-out" type="boolean" />
             </when>
             <when value="unclassified_out">
-                <param falsevalue="" help="(--unclassified-out)" label="Unclassified sequences are sent to a file for later processing" name="unclassified" truevalue="--unclassified-out" type="boolean" />
+                <param falsevalue="" help="(--unclassified-out)" label="Only unclassified sequences are sent to a file for later processing" name="unclassified" truevalue="--unclassified-out" type="boolean" />
             </when>
         </conditional>
 
