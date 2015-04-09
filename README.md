@@ -21,10 +21,12 @@ In the config/tool_data_table_conf.xml, add this:
 
 TODO: 
 
-1. Fix kraken.xml to take in fastq files
+1. Fix kraken.xml to take in fastq files- it does, but fails to recognize files with reads below a certain length
 
 2. Kraken-report is not finding 'kraken' -  
 File "DynamicallyCompiledCheetahTemplate.py", line 94, in respond
 NotFound: cannot find 'kraken
 
-2. Make sequence filtering work.
+3. Make sequence filtering work.
+
+4. Kraken-build
